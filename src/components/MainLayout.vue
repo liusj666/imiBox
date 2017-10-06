@@ -142,6 +142,7 @@
           window.webSocket.send(JSON.stringify(info))
           let selectItem = this.$store.state.mainHeader.selectedItem
           if (selectItem !== '2' && selectItem !== '3') {
+            this.activeIndex = '3'
             this.$router.push({
               name: 'DeviceView'
             })

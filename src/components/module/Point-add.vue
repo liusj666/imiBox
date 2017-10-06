@@ -21,21 +21,21 @@
         </el-form-item>
       </el-form>
     </el-form>
-    <div class="point-S7-1" v-if="!form.IsVariable">
-      <el-form :model="form">
+    <!--<div class="point-S7-1" v-if="!form.IsVariable">-->
+      <el-form :model="form" v-if="!form.IsVariable">
         <el-form-item label="点位地址" :label-width="formLabelWidth">
           <el-input v-model="form.TagCode" @blur="writeDetailInfo" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
-      <el-form :inline="true" :model="form" class="demo-form-inline" :rules="rules" ref="pointS7AddForm">
-        <el-form-item  prop="TagArea"  label="块名" :label-width="formLabelWidth">
+      <el-form :inline="true" :model="form" class="demo-form-inline" :rules="rules" ref="pointS7AddForm" v-if="!form.IsVariable">
+        <el-form-item prop="TagArea" label="块名" :label-width="formLabelWidth">
           <el-input v-model="form.TagArea" :readonly="true" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item  prop="TagAddress"  label="地址" :label-width="formLabelWidth">
-          <el-input v-model="form.TagAddress" :readonly="true"  auto-complete="off"></el-input>
+        <el-form-item prop="TagAddress" label="地址" :label-width="formLabelWidth">
+          <el-input v-model="form.TagAddress" :readonly="true" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
-      <el-form :inline="true" :model="form" class="demo-form-inline">
+      <el-form :inline="true" :model="form" class="demo-form-inline" v-if="!form.IsVariable">
         <el-form-item label="数据类型" :label-width="formLabelWidth">
           <el-select v-model="form.DataType" placeholder="请选择数据类型">
             <el-option label="Bool" value=1></el-option>
@@ -53,7 +53,7 @@
           <el-input v-model="form.Size" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
-    </div>
+    <!--</div>-->
     <div class="point-S7-2" v-if="form.IsVariable">
       <el-form :inline="true" :model="form" class="demo-form-inline">
         <el-form-item label="设定值" :label-width="formLabelWidth">
