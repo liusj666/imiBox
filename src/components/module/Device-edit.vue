@@ -2,12 +2,12 @@
   <div>
     <!--第一步-->
     <el-dialog title="编辑设备" :visible.sync="dialogDevice" size="tiny">
-      <el-form :model="form">
-        <el-form-item label="设备名称" :label-width="formLabelWidth">
+      <el-form :model="form" :rules="rules" ref="deviceEditForm">
+        <el-form-item prop="Name" label="设备名称" :label-width="formLabelWidth">
           <el-input v-model="form.Name"></el-input>
         </el-form-item>
         <el-form-item label="站位号" :label-width="formLabelWidth">
-          <el-input v-model="form.StationId"></el-input>
+          <el-input-number v-model="form.StationId"></el-input-number>
         </el-form-item>
         <el-form-item label="启用" :label-width="formLabelWidth">
           <el-switch on-text="" off-text="" v-model="form.Enable"></el-switch>
@@ -15,7 +15,7 @@
         <el-form-item label="备注" :label-width="formLabelWidth">
           <el-input type="textarea" v-model="form.Description" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="设备驱动" :label-width="formLabelWidth">
+        <el-form-item prop="DriverType" label="设备驱动" :label-width="formLabelWidth">
           <el-select v-model="form.DriverType" placeholder="请选择">
             <el-option v-for="item in driverList" :key="item.value" :label="item.name" :value="item.value"></el-option>
           </el-select>
@@ -37,7 +37,7 @@
           <el-input v-model="form.Port"></el-input>
         </el-form-item>
         <el-form-item label="槽号" :label-width="formLabelWidth">
-          <el-input v-model="form.Solt"></el-input>
+          <el-input-number v-model="form.Solt"></el-input-number>
         </el-form-item>
 
       </el-form>
@@ -56,6 +56,14 @@
     props: ['deviceGroupId'],
     data () {
       return {
+        rules: {
+          Name: [
+            { required: true, message: '请输入设备名称', trigger: 'blur' }
+          ],
+          DriverType: [
+            { required: true, message: '请选择驱动类型', trigger: 'blur' }
+          ]
+        },
         dialogDevice: false,
         dialogS7: false,
         form: {},
@@ -98,8 +106,14 @@
         this.dialogS7 = false
       },
       next () {
-        this.dialogDevice = false
-        this.dialogS7 = true
+        this.$refs['deviceEditForm'].validate((valid) => {
+          if (valid) {
+            this.dialogDevice = false
+            this.dialogS7 = true
+          } else {
+            return false
+          }
+        })
       },
       editDevice () {
         let details = {

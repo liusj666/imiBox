@@ -93,7 +93,6 @@
         this.$refs.pointAdd.open()
       },
       editGroup () {
-        console.log(this.groupInfo[this.activeGroupIndex])
         this.$refs.groupEdit.open(this.groupInfo[this.activeGroupIndex])
       },
       addGroup () {

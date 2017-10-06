@@ -1,7 +1,7 @@
 <template>
   <el-dialog title="编辑设备组" :visible.sync="dialogVisible" size="tiny">
-    <el-form :model="form">
-      <el-form-item label="设备组名称" :label-width="formLabelWidth">
+    <el-form :model="form" :rules="rules" ref="deviceGroupEditForm">
+      <el-form-item prop="Name" label="设备组名称" :label-width="formLabelWidth">
         <el-input v-model="form.Name" auto-complete="off"></el-input>
       </el-form-item>
     </el-form>
@@ -46,6 +46,11 @@
   export default {
     data () {
       return {
+        rules: {
+          Name: [
+            {required: true, message: '请输入设备组名称', trigger: 'blur'}
+          ]
+        },
         dialogVisible: false,
         form: {
           Name: ''
@@ -75,26 +80,54 @@
         rows.splice(index, 1)
       },
       deleteGroup () {
-        this.form.State = 1
-        this.$axios.post('api/updateDeviceGroupInfo', this.form).then(response => {
-          let data = response.data.data
-          this.form.Id = data
-          this.$emit('callback-device-group-data-delete', this.form)
-          this.dialogVisible = false
-          // success callback
-        }, response => {
-          // error callback
+        this.$confirm('此操作将永久删除该设备组, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.form.State = 1
+          this.$axios.post('api/updateDeviceGroupInfo', this.form).then(response => {
+            if (response.data.success === true) {
+              let data = response.data.data
+              this.form.Id = data
+              this.$emit('callback-device-group-data-delete', this.form)
+              this.dialogVisible = false
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              })
+            } else {
+              this.$message({
+                type: 'warning',
+                message: response.data.msg
+              })
+            }
+            // success callback
+          }, response => {
+            // error callback
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
         })
       },
       editGroup () {
-        this.form.State = 2
-        this.$axios.post('api/updateDeviceGroupInfo', this.form).then(response => {
+        this.$refs['deviceGroupEditForm'].validate((valid) => {
+          if (valid) {
+            this.form.State = 2
+            this.$axios.post('api/updateDeviceGroupInfo', this.form).then(response => {
 //          let data = response.data.data
-          this.$emit('callback-device-group-data-edit', this.form)
-          this.dialogVisible = false
-          // success callback
-        }, response => {
-          // error callback
+              this.$emit('callback-device-group-data-edit', this.form)
+              this.dialogVisible = false
+              // success callback
+            }, response => {
+              // error callback
+            })
+          } else {
+            return false
+          }
         })
       }
     }

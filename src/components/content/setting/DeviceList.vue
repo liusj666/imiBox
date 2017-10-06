@@ -173,6 +173,7 @@
       open () {
         this.diveceGroup = this.deviceGroupInfo
         this.activeGroupKey = this.diveceGroup[0].Id
+        this.activeGroupIndex = 0
         if (this.diveceGroup.length > 0) {
           if (this.diveceGroup[0].DeviceList !== undefined) {
             this.deviceList = this.diveceGroup[0].DeviceList
@@ -187,16 +188,38 @@
         this.$refs.deviceEdit.open(row)
       },
       handleDelete (index, row) {
-        let params =
-          {
-            State: 1,
-            Id: row.Id
-          }
-        this.$axios.post('api/updateDeviceInfo', params).then(response => {
-          this.diveceGroup[this.activeGroupIndex].DeviceList.splice(index, 1)
-          // success callback
-        }, response => {
-          // error callback
+        this.$confirm('此操作将永久删除该设备, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let params =
+            {
+              State: 1,
+              Id: row.Id
+            }
+          this.$axios.post('api/updateDeviceInfo', params).then(response => {
+            if (response.data.success === true) {
+              this.diveceGroup[this.activeGroupIndex].DeviceList.splice(index, 1)
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              })
+            } else {
+              this.$message({
+                type: 'warning',
+                message: response.data.msg
+              })
+            }
+            // success callback
+          }, response => {
+            // error callback
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
         })
       },
       deviceGroupSelect (key, keyPath) {

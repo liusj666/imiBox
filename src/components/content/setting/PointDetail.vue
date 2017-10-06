@@ -81,12 +81,34 @@
         this.$refs.pointEdit.open(row)
       },
       handleDelete (index, row, rows) {
-        row.State = 1
-        this.$axios.post('api/updatePointInfo', row).then(response => {
-          rows.splice(index, 1)
-          // success callback
-        }, response => {
-          // error callback
+        this.$confirm('此操作将永久删除该点位, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          row.State = 1
+          this.$axios.post('api/updatePointInfo', row).then(response => {
+            if (response.data.success === true) {
+              rows.splice(index, 1)
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              })
+            } else {
+              this.$message({
+                type: 'warning',
+                message: response.data.msg
+              })
+            }
+            // success callback
+          }, response => {
+            // error callback
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
         })
       }
     }

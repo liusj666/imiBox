@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-dialog title="新增设备组" :visible.sync="dialogVisible" size="tiny">
-      <el-form :model="form">
-        <el-form-item label="设备组名称" :label-width="formLabelWidth">
+      <el-form :model="form"  :rules="rules" ref="deviceGroupAddForm">
+        <el-form-item  prop="Name" label="设备组名称" :label-width="formLabelWidth">
           <el-input v-model="form.Name" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
@@ -59,6 +59,11 @@
     },
     data () {
       return {
+        rules: {
+          Name: [
+            { required: true, message: '请输入设备组名称', trigger: 'blur' }
+          ]
+        },
         dialogVisible: false,
         form: {
           Id: '',
@@ -93,20 +98,26 @@
         rows.splice(index, 1)
       },
       addGroup () {
-        let params = {
-          Name: this.form.Name,
-          State: 0,
-          Details: JSON.stringify(this.Detail),
-          DeviceList: []
-        }
-        this.$axios.post('api/updateDeviceGroupInfo', params).then(response => {
-          let data = response.data.data
-          params.Id = data
-          this.$emit('callback-device-group-data-add', params)
-          this.dialogVisible = false
-          // success callback
-        }, response => {
-          // error callback
+        this.$refs['deviceGroupAddForm'].validate((valid) => {
+          if (valid) {
+            let params = {
+              Name: this.form.Name,
+              State: 0,
+              Details: JSON.stringify(this.Detail),
+              DeviceList: []
+            }
+            this.$axios.post('api/updateDeviceGroupInfo', params).then(response => {
+              let data = response.data.data
+              params.Id = data
+              this.$emit('callback-device-group-data-add', params)
+              this.dialogVisible = false
+              // success callback
+            }, response => {
+              // error callback
+            })
+          } else {
+            return false
+          }
         })
       }
     }
