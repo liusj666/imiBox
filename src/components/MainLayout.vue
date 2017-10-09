@@ -9,7 +9,7 @@
             <el-menu-item index=1>首页</el-menu-item>
             <el-menu-item index=2>点位列表</el-menu-item>
             <el-menu-item index=3>数据监控</el-menu-item>
-            <el-menu-item index=4>参数设置</el-menu-item>
+            <!--<el-menu-item index=4>参数设置</el-menu-item>-->
           </el-menu>
         </div>
         <div class="system-btn">
@@ -246,8 +246,6 @@
   .main-body {
     display: flex;
     flex: 1;
-    /*position: relative;*/
-    /*overflow: hidden;*/
   }
 
   .main-body .inner {

@@ -29,7 +29,7 @@
         label="采集时间"
         width="200">
         <template scope="scope">
-          <span style="margin-left: 10px">{{ scope.row.timeSpan }}</span>
+          <span style="margin-left: 10px">{{ scope.row.Timestamp }}</span>
         </template>
       </el-table-column>
       <el-table-column label="点位值">
@@ -52,7 +52,8 @@
     computed: {
       pointsInfo () {
         this.pointInfo = this.$store.state.contentDevice.pointInfo
-        return this.pointInfo
+        console.log(this.pointInfo)
+        return this.pointInfo.filter(item => item.Enable === true)
       }
     },
     mounted () {
@@ -62,6 +63,7 @@
       updateData (data) {
         this.pointInfo.forEach(function (pitem, pindex, array) {
           if (pitem.PointId === data.Value.TagId) {
+            pitem.Timestamp = data.Timestamp
             pitem.Value = data.Value.Value
           }
         })

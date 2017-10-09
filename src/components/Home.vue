@@ -1,11 +1,11 @@
 <template>
   <div class="home">
     <div class="Chart">
-      <div id="deviceChart" :style="{width:'600px',height:'400px'}"></div>
+      <div id="deviceChart" :style="{width:'500px',height:'400px'}"></div>
     </div>
 
     <div class="Chart">
-      <div id="pointChart" :style="{width:'600px',height:'400px'}"></div>
+      <div id="pointChart" :style="{width:'500px',height:'400px'}"></div>
     </div>
   </div>
 </template>
@@ -31,11 +31,21 @@
             text: '设备启用/禁用统计图',
             left: 'center'
           },
+          color: ['rgb(255,69,0)', 'rgb(118,238,0)'],
           series: [{
 //          name: '访问来源',
             type: 'pie',
             radius: '55%',
-            data: this.deviceValue
+            data: this.deviceValue,
+            itemStyle: {
+              normal: {
+                label: {
+                  show: true,
+                  formatter: '{b} : {c} ({d}%)'
+                },
+                labelLine: {show: true}
+              }
+            }
           }]
         }
         this.deviceValue.splice(0, this.deviceValue.length)
@@ -66,11 +76,21 @@
             text: '点位启用/禁用统计图',
             left: 'center'
           },
+          color: ['rgb(255,69,0)', 'rgb(118,238,0)'],
           series: [{
 //          name: '访问来源',
             type: 'pie',
             radius: '55%',
-            data: this.pointValue
+            data: this.pointValue,
+            itemStyle: {
+              normal: {
+                label: {
+                  show: true,
+                  formatter: '{b} : {c} ({d}%)'
+                },
+                labelLine: {show: true}
+              }
+            }
           }]
         }
         this.pointValue.splice(0, this.pointValue.length)

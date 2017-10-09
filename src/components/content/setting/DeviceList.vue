@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog title="设备编辑" :visible.sync="dialogVisible" size="large">
+    <el-dialog title="设备编辑" :visible.sync="dialogVisible" size="small">
       <div class="editDeviceBox">
         <div class="deviceGroup">
           <div class="deviceGroupTree">
@@ -24,21 +24,21 @@
               style="width: 100%">
               <el-table-column
                 label="序号"
-                width="100">
+                width="70">
                 <template scope="scope">
                   <span style="margin-left: 10px">{{ scope.$index + 1 }}</span>
                 </template>
               </el-table-column>
               <el-table-column
                 label="设备名称"
-                width="200">
+                width="150">
                 <template scope="scope">
                   <span style="margin-left: 10px">{{ scope.row.Name }}</span>
                 </template>
               </el-table-column>
               <el-table-column
                 label="驱动类型"
-                width="240">
+                width="220">
                 <template scope="scope">
                   <span style="margin-left: 10px">{{scope.row.DriverType }}</span>
                 </template>
@@ -53,13 +53,13 @@
                   <!--<span style="margin-left: 10px">{{ scope.row.Enable }}</span>-->
                 </template>
               </el-table-column>
-              <el-table-column
-                label="备注"
-                width="200">
-                <template scope="scope">
-                  <span style="margin-left: 10px">{{ scope.row.Description }}</span>
-                </template>
-              </el-table-column>
+              <!--<el-table-column-->
+                <!--label="备注"-->
+                <!--width="200">-->
+                <!--<template scope="scope">-->
+                  <!--<span style="margin-left: 10px">{{ scope.row.Description }}</span>-->
+                <!--</template>-->
+              <!--</el-table-column>-->
               <el-table-column label="操作">
                 <template scope="scope">
                   <el-button
