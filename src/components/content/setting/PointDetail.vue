@@ -32,6 +32,18 @@
             @click="handleEdit(scope.$index, scope.row)">编辑
           </el-button>
           <el-button
+            v-if="scope.row.Enable==false"
+            size="small"
+            type="info"
+            @click="changePointEnable(scope.$index, scope.row)">启用
+          </el-button>
+          <el-button
+            v-if="scope.row.Enable==true"
+            size="small"
+            type="info"
+            @click="changePointEnable(scope.$index, scope.row)">禁用
+          </el-button>
+          <el-button
             size="small"
             type="danger"
             @click="handleDelete(scope.$index, scope.row, pointsInfo)">删除
@@ -75,6 +87,16 @@
         this.activePoint.Enable = data.Enable
         this.activePoint.Description = data.Description
         this.activePoint.PointDetail = data.PointDetail
+      },
+      changePointEnable (index, row) {
+        this.$axios.post('api/changePointEnable', row).then(response => {
+          if (response.data.success === true) {
+            row.Enable = !row.Enable
+          }
+          // success callback
+        }, response => {
+          // error callback
+        })
       },
       handleEdit (index, row) {
         this.activePoint = row

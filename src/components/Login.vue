@@ -53,7 +53,7 @@
         }
         this.$axios.post('api/login', params).then(response => {
           if (response.data.success) {
-            this.$router.push({path: '/index'})
+            this.$router.push({name: 'Home'})
           } else {
             this.$message(response.data.message)
           }

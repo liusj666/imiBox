@@ -19,5 +19,8 @@ export default {
   .el-tabs--border-card>.el-tabs__content {
     padding: 0px;
   }
+  .el-tabs__content {
+    overflow: auto;
+  }
 
 </style>

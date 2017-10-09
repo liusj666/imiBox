@@ -45,7 +45,7 @@
       }
     },
     methods: {
-      selectGroup (tab, event) {
+      selectGroup (tab) {
         let id = tab.name
         this.$store.dispatch(types.CONTENT_SELECTED_GROUPID, {selectedGroupId: id})
         for (let key in this.groupInfo) {
@@ -61,35 +61,29 @@
           this.groupInfo[this.activeGroupIndex].Points = []
           this.$store.dispatch(types.CONTENT_SELECTED_GROUP, {pointInfo: []})
         }
-      },
-
-      initWebSocket () {
-        let vm = this
-//        收到信息时
-        window.webSocket.onmessage = function (e) {
-          let data = JSON.parse(e.data)
-          vm.updateData(data)
-        }
       }
     }
   }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .content-header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    background-color: #eef1f6;
+  .el-tabs__content {
+    overflow: auto;
   }
 
-  .device-detail {
+  .el-tabs--border-card {
     display: flex;
+    flex: 1;
     flex-direction: column;
   }
 
-  .content-main {
+  .device-view {
+    display: flex;
+    flex: 1;
+  }
+
+  .group-tabs {
+    display: flex;
     flex: 1;
   }
 </style>

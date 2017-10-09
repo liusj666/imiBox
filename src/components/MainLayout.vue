@@ -27,7 +27,7 @@
       </div>
     </header>
     <div class="main-body">
-      <div class="inner l-full">
+      <!--<div class="inner l-full">-->
         <div class="main-nav">
           <el-input
             placeholder="输入关键字进行过滤"
@@ -47,18 +47,17 @@
             >
             </el-tree>
           </div>
-          <el-button icon="edit" @click="showEditDevice"></el-button>
+          <el-button style="width: 10em" type="primary" icon="edit" @click="showEditDevice">设备编辑</el-button>
         </div>
         <div class="main-content">
           <div class="group-point">
             <router-view></router-view>
           </div>
-
-          <div class="main-footer">
-            <p class="footer-text">&copy; 2017 杭州吉利易云科技有限公司</p>
-          </div>
         </div>
-      </div>
+      <!--</div>-->
+    </div>
+    <div class="main-footer">
+      <p class="footer-text">&copy; 2017 杭州吉利易云科技有限公司</p>
     </div>
     <deviceList :deviceGroupInfo="deviceTree" ref="deviceList"></deviceList>
     <changePassword ref="changePassword"></changePassword>
@@ -121,6 +120,10 @@
         } else if (key === '2') {
           this.$router.push({
             name: 'DeviceSetting'
+          })
+        } else if (key === '1') {
+          this.$router.push({
+            name: 'Home'
           })
         }
       },
@@ -196,6 +199,7 @@
   }
 
   .group-point {
+    display: flex;
     flex: 1;
   }
 
@@ -204,11 +208,12 @@
   }
 
   .main-footer {
-    /*border-top: 1px;*/
+    border-top: 1px solid #d1dbe5;
     display: flex;
     justify-content: center;
     align-items: center;
     flex: 0 0 2em;
+    background-color: #eef1f6;
   }
 
   .header-menu {
@@ -241,8 +246,8 @@
   .main-body {
     display: flex;
     flex: 1;
-    position: relative;
-    overflow: hidden;
+    /*position: relative;*/
+    /*overflow: hidden;*/
   }
 
   .main-body .inner {

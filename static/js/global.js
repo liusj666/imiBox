@@ -1,10 +1,8 @@
-window.url = 'http://10.200.188.92'
-
 window.driverType = ''
 
 window.webSocket = ''
 //        服务端地址
-// var address = 'ws://10.200.188.92:8902'
+// var address = 'ws://10.200.188.60:8902'
 var address = 'ws://127.0.0.1:8902'
 //        实例化WebSocket对象
 window.webSocket = new WebSocket(address)

@@ -47,7 +47,10 @@
                 label="是否启用"
                 width="100">
                 <template scope="scope">
-                  <span style="margin-left: 10px">{{ scope.row.Enable }}</span>
+                  <el-switch v-model="scope.row.Enable" on-text="是"
+                             off-text="否">
+                  </el-switch>
+                  <!--<span style="margin-left: 10px">{{ scope.row.Enable }}</span>-->
                 </template>
               </el-table-column>
               <el-table-column

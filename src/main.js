@@ -7,8 +7,11 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 import axios from 'axios'
 import store from './store'
+import echarts from 'echarts'
 
 Vue.prototype.$axios = axios
+Vue.prototype.$echarts = echarts
+
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 

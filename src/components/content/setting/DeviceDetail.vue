@@ -1,7 +1,14 @@
 <template>
   <div class="device-detail">
     <div class="content-main">
-      <div class="content-header">
+      <div class="group-tabs">
+        <el-tabs :active-name="active" type="border-card" @tab-click="selectGroup">
+          <el-tab-pane v-for="item in groupsInfo " :key="item.GroupId" :label=item.GroupName :name="item.GroupId">
+            <pointDetail></pointDetail>
+          </el-tab-pane>
+        </el-tabs>
+      </div>
+      <div class="content-footer">
         <div class="group-btn">
           <el-button type="primary" icon="plus" @click="addGroup">新增采集组</el-button>
           <el-button type="primary" icon="edit" @click="editGroup">编辑采集组</el-button>
@@ -9,13 +16,6 @@
         <div class="point-btn">
           <el-button type="primary" icon="plus" @click="addPoint">新增点位</el-button>
         </div>
-      </div>
-      <div class="group-tabs">
-        <el-tabs :active-name="active" type="border-card" @tab-click="selectGroup">
-          <el-tab-pane v-for="item in groupsInfo " :key="item.GroupId" :label=item.GroupName :name="item.GroupId">
-            <pointDetail></pointDetail>
-          </el-tab-pane>
-        </el-tabs>
       </div>
     </div>
 
@@ -108,6 +108,7 @@
           }
         }
         if (this.groupInfo[this.activeGroupIndex].Points !== undefined) {
+          console.log(this.groupInfo[this.activeGroupIndex].Points)
           this.$store.dispatch(types.CONTENT_SELECTED_GROUP, {pointInfo: this.groupInfo[this.activeGroupIndex].Points})
         } else {
           this.groupInfo[this.activeGroupIndex].Points = []
@@ -120,8 +121,24 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .el-tabs--border-card {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    overflow: auto;
+  }
 
-  .content-header {
+  .content-table {
+    display: flex;
+  }
+
+  .group-tabs {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .content-footer {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -130,10 +147,13 @@
 
   .device-detail {
     display: flex;
+    flex: 1;
     flex-direction: column;
   }
 
   .content-main {
+    display: flex;
     flex: 1;
+    flex-direction: column;
   }
 </style>

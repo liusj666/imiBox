@@ -25,6 +25,13 @@
           <span style="margin-left: 10px">{{ scope.row.PointName }}</span>
         </template>
       </el-table-column>
+      <el-table-column
+        label="采集时间"
+        width="200">
+        <template scope="scope">
+          <span style="margin-left: 10px">{{ scope.row.timeSpan }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="点位值">
         <template scope="scope">
           <span style="margin-left: 10px">{{ scope.row.Value}}</span>
