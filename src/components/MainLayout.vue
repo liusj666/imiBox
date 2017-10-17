@@ -20,7 +20,7 @@
               <template slot="title">系统</template>
               <el-menu-item index="changePassword">修改密码</el-menu-item>
               <el-menu-item index="restart">重启服务</el-menu-item>
-              <el-menu-item index="loginout">注销</el-menu-item>
+              <el-menu-item index="logout">注销</el-menu-item>
             </el-submenu>
           </el-menu>
         </div>
@@ -103,7 +103,7 @@
         this.$refs.deviceList.open()
       },
       getDevicesList () {
-        this.$axios.get('api/getDevicesListNew').then(response => {
+        this.$axios.get('box/getDevicesListNew').then(response => {
           let data = response.data.data
           this.deviceTree = data
           // success callback
@@ -131,7 +131,7 @@
         if (node.childNodes.length === 0) {
           let key = data.Id
           var params = {Id: key}
-          this.$axios.post('api/getDeviceDetailNew', params).then(response => {
+          this.$axios.post('box/getDeviceDetailNew', params).then(response => {
             let data = response.data.data
             this.$store.dispatch(types.CONTENT_SELECTED_DEVICE, {groupInfo: data})
             // success callback
@@ -156,11 +156,21 @@
         if (key === 'changePassword') {
           this.$refs.changePassword.open()
         } else if (key === 'restart') {
-          this.$axios.get('api/restart').then(response => {
-            if (response.data.success === false) {
+          this.$axios.get('box/restart').then(response => {
+            console.log(response)
+            if (response.data.success) {
               this.$message(response.data.message)
             } else {
-              this.$message(response.data.message)
+              if (response.data.data === 'verifed') {
+                this.$router.push({
+                  name: 'Login'
+                })
+              } else {
+                this.$message({
+                  type: 'warning',
+                  message: response.data.message
+                })
+              }
             }
             // success callback
           }, response => {
@@ -168,6 +178,16 @@
           })
         } else if (key === 'fullScreen') {
           this.requestFullScreen()
+        } else if (key === 'logout') {
+          this.$axios.get('box/logout').then(response => {
+            window.clearCookie('_ncfa')
+            this.$router.push({
+              name: 'Login'
+            })
+            // success callback
+          }, response => {
+            // error callback
+          })
         }
       },
       requestFullScreen () {
@@ -258,7 +278,7 @@
     display: flex;
     flex-direction: column;
     flex: 1 0 auto;
-    overflow: auto;
+    overflow: hidden;
 
   }
 

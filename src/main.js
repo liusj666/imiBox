@@ -8,8 +8,10 @@ import 'element-ui/lib/theme-default/index.css'
 import axios from 'axios'
 import store from './store'
 import echarts from 'echarts'
+import jquery from 'jquery'
 
 Vue.prototype.$axios = axios
+Vue.prototype.$jquery = jquery
 Vue.prototype.$echarts = echarts
 
 Vue.use(ElementUI)

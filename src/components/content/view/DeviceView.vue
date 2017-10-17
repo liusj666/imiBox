@@ -3,9 +3,12 @@
     <div class="group-tabs">
       <el-tabs :active-name="active" type="border-card" @tab-click="selectGroup">
         <el-tab-pane v-for="item in groupsInfo " :key="item.GroupId" :label=item.GroupName :name="item.GroupId">
-          <pointView></pointView>
+
         </el-tab-pane>
       </el-tabs>
+      <div class="table-contain">
+        <pointView></pointView>
+      </div>
     </div>
   </div>
 </template>
@@ -67,14 +70,16 @@
 </script>
 
 <style scoped>
-  .el-tabs__content {
-    overflow: auto;
-  }
-
-  .el-tabs--border-card {
+  .group-tabs {
     display: flex;
     flex: 1;
     flex-direction: column;
+  }
+
+  .table-contain {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   .device-view {

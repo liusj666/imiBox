@@ -2,11 +2,13 @@
   <div class="device-detail">
     <div class="content-main">
       <div class="group-tabs">
-        <el-tabs :active-name="active" type="border-card" @tab-click="selectGroup">
+        <el-tabs :active-name="active" type="border-card" @tab-click="selectGroup" class="tab-items">
           <el-tab-pane v-for="item in groupsInfo " :key="item.GroupId" :label=item.GroupName :name="item.GroupId">
-            <pointDetail></pointDetail>
           </el-tab-pane>
         </el-tabs>
+        <div class="table-contain">
+          <pointDetail></pointDetail>
+        </div>
       </div>
       <div class="content-footer">
         <div class="group-btn">
@@ -121,21 +123,21 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .el-tabs--border-card {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    overflow: auto;
-  }
 
-  .content-table {
-    display: flex;
+
+  .tab-items {
+    padding: 0px;
   }
 
   .group-tabs {
     display: flex;
     flex: 1;
-    overflow: hidden;
+    flex-direction: column;
+  }
+
+  .table-contain {
+    flex: 1;
+    overflow-y: auto;
   }
 
   .content-footer {

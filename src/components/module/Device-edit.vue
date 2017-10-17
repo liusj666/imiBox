@@ -123,14 +123,26 @@
         }
         this.form.Details = JSON.stringify(details)
         this.form.DeviceGroupId = this.deviceGroupId
-        this.$axios.post('api/updateDeviceInfo', this.form).then(response => {
-          console.log(response)
-          details = {
-            _driverCfg: JSON.stringify(details)
+        this.$axios.post('box/updateDeviceInfo', this.form).then(response => {
+          if (response.data.success) {
+            details = {
+              _driverCfg: JSON.stringify(details)
+            }
+            this.form.Details = JSON.stringify(details)
+            this.$emit('callback-device-data-edit', this.form)
+            this.dialogS7 = false
+          } else {
+            if (response.data.data === 'verifed') {
+              this.$router.push({
+                name: 'Login'
+              })
+            } else {
+              this.$message({
+                type: 'warning',
+                message: response.data.message
+              })
+            }
           }
-          this.form.Details = JSON.stringify(details)
-          this.$emit('callback-device-data-edit', this.form)
-          this.dialogS7 = false
           // success callback
         }, response => {
           // error callback

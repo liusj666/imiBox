@@ -132,11 +132,24 @@
           DeviceGroupId: this.deviceGroupId,
           Details: JSON.stringify(details)
         }
-        this.$axios.post('api/updateDeviceInfo', this.form).then(response => {
-          let data = response.data.data
-          params.Id = data
-          this.$emit('callback-device-data-add', params)
-          this.dialogS7 = false
+        this.$axios.post('box/updateDeviceInfo', this.form).then(response => {
+          if (response.data.success) {
+            let data = response.data.data
+            params.Id = data
+            this.$emit('callback-device-data-add', params)
+            this.dialogS7 = false
+          } else {
+            if (response.data.data === 'verifed') {
+              this.$router.push({
+                name: 'Login'
+              })
+            } else {
+              this.$message({
+                type: 'warning',
+                message: response.data.message
+              })
+            }
+          }
           // success callback
         }, response => {
           // error callback

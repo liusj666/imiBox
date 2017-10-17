@@ -223,11 +223,24 @@
             PointDetail: JSON.stringify(details)
           }
 
-          this.$axios.post('api/updatePointInfo', this.form).then(response => {
-            let data = response.data.data
-            params.PointId = data
-            this.$emit('callback-point-data-add', params)
-            this.dialogVisible = false
+          this.$axios.post('box/updatePointInfo', this.form).then(response => {
+            if (response.data.success) {
+              let data = response.data.data
+              params.PointId = data
+              this.$emit('callback-point-data-add', params)
+              this.dialogVisible = false
+            } else {
+              if (response.data.data === 'verifed') {
+                this.$router.push({
+                  name: 'Login'
+                })
+              } else {
+                this.$message({
+                  type: 'warning',
+                  message: response.data.message
+                })
+              }
+            }
             // success callback
           }, response => {
             // error callback

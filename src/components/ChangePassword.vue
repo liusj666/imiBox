@@ -65,6 +65,11 @@
     methods: {
       open () {
         this.dialogVisible = true
+        this.form = {
+          oldPass: '',
+          newPass: '',
+          checkPass: ''
+        }
       },
       submit () {
         let params = {
@@ -73,11 +78,24 @@
         }
         this.$refs['passwordForm'].validate((valid) => {
           if (valid) {
-            this.$axios.post('api/password', params).then(response => {
+            this.$axios.post('box/password', params).then(response => {
               if (response.data.success) {
                 this.dialogVisible = false
+                this.$message({
+                  type: 'success',
+                  message: response.data.message
+                })
               } else {
-                this.$message(response.data.message)
+                if (response.data.data === 'verifed') {
+                  this.$router.push({
+                    name: 'Login'
+                  })
+                } else {
+                  this.$message({
+                    type: 'warning',
+                    message: response.data.message
+                  })
+                }
               }
               // success callback
             }, response => {

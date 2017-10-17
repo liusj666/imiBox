@@ -73,11 +73,24 @@
               DeviceId: this.$store.state.mainSidebar.selectedDeviceId,
               Points: []
             }
-            this.$axios.post('api/updateGroupInfo', this.form).then(response => {
-              let data = response.data.data
-              params.GroupId = data
-              this.$emit('callback-group-data-add', params)
-              this.dialogVisible = false
+            this.$axios.post('box/updateGroupInfo', this.form).then(response => {
+              if (response.data.success) {
+                let data = response.data.data
+                params.GroupId = data
+                this.$emit('callback-group-data-add', params)
+                this.dialogVisible = false
+              } else {
+                if (response.data.data === 'verifed') {
+                  this.$router.push({
+                    name: 'Login'
+                  })
+                } else {
+                  this.$message({
+                    type: 'warning',
+                    message: response.data.message
+                  })
+                }
+              }
               // success callback
             }, response => {
               // error callback

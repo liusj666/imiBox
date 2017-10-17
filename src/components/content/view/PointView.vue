@@ -52,7 +52,6 @@
     computed: {
       pointsInfo () {
         this.pointInfo = this.$store.state.contentDevice.pointInfo
-        console.log(this.pointInfo)
         return this.pointInfo.filter(item => item.Enable === true)
       }
     },

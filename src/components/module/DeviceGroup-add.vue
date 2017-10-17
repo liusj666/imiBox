@@ -106,11 +106,24 @@
               Details: JSON.stringify(this.Detail),
               DeviceList: []
             }
-            this.$axios.post('api/updateDeviceGroupInfo', params).then(response => {
-              let data = response.data.data
-              params.Id = data
-              this.$emit('callback-device-group-data-add', params)
-              this.dialogVisible = false
+            this.$axios.post('box/updateDeviceGroupInfo', params).then(response => {
+              if (response.data.success) {
+                let data = response.data.data
+                params.Id = data
+                this.$emit('callback-device-group-data-add', params)
+                this.dialogVisible = false
+              } else {
+                if (response.data.data === 'verifed') {
+                  this.$router.push({
+                    name: 'Login'
+                  })
+                } else {
+                  this.$message({
+                    type: 'warning',
+                    message: response.data.message
+                  })
+                }
+              }
               // success callback
             }, response => {
               // error callback

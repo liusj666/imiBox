@@ -89,9 +89,20 @@
         this.activePoint.PointDetail = data.PointDetail
       },
       changePointEnable (index, row) {
-        this.$axios.post('api/changePointEnable', row).then(response => {
+        this.$axios.post('box/changePointEnable', row).then(response => {
           if (response.data.success === true) {
             row.Enable = !row.Enable
+          } else {
+            if (response.data.data === 'verifed') {
+              this.$router.push({
+                name: 'Login'
+              })
+            } else {
+              this.$message({
+                type: 'warning',
+                message: response.data.message
+              })
+            }
           }
           // success callback
         }, response => {
@@ -109,7 +120,7 @@
           type: 'warning'
         }).then(() => {
           row.State = 1
-          this.$axios.post('api/updatePointInfo', row).then(response => {
+          this.$axios.post('box/updatePointInfo', row).then(response => {
             if (response.data.success === true) {
               rows.splice(index, 1)
               this.$message({
@@ -117,10 +128,16 @@
                 message: '删除成功!'
               })
             } else {
-              this.$message({
-                type: 'warning',
-                message: response.data.msg
-              })
+              if (response.data.data === 'verifed') {
+                this.$router.push({
+                  name: 'Login'
+                })
+              } else {
+                this.$message({
+                  type: 'warning',
+                  message: response.data.message
+                })
+              }
             }
             // success callback
           }, response => {

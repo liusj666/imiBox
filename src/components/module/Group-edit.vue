@@ -69,7 +69,7 @@
           type: 'warning'
         }).then(() => {
           this.form.State = 1
-          this.$axios.post('api/updateGroupInfo', this.form).then(response => {
+          this.$axios.post('box/updateGroupInfo', this.form).then(response => {
             if (response.data.success === true) {
               this.$emit('callback-group-data-delete', this.form)
               this.dialogVisible = false
@@ -78,21 +78,22 @@
                 message: '删除成功!'
               })
             } else {
-              console.log(response.data)
-              this.$message({
-                type: 'warning',
-                message: response.data.msg
-              })
+              if (response.data.data === 'verifed') {
+                this.$router.push({
+                  name: 'Login'
+                })
+              } else {
+                this.$message({
+                  type: 'warning',
+                  message: response.data.message
+                })
+              }
             }
             // success callback
           }, response => {
             // error callback
           })
         }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          })
         })
       },
       editGroup () {
@@ -104,9 +105,22 @@
             }
             this.form.State = 2
             this.form.GroupDetail = JSON.stringify(details)
-            this.$axios.post('api/updateGroupInfo', this.form).then(response => {
-              this.$emit('callback-group-data-edit', this.form)
-              this.dialogVisible = false
+            this.$axios.post('box/updateGroupInfo', this.form).then(response => {
+              if (response.data.success) {
+                this.$emit('callback-group-data-edit', this.form)
+                this.dialogVisible = false
+              } else {
+                if (response.data.data === 'verifed') {
+                  this.$router.push({
+                    name: 'Login'
+                  })
+                } else {
+                  this.$message({
+                    type: 'warning',
+                    message: response.data.message
+                  })
+                }
+              }
               // success callback
             }, response => {
               // error callback

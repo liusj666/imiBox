@@ -8,12 +8,12 @@
         <div class="login-box">
           <div class="box-title">系统登录</div>
           <!--<div class="box-input">-->
-            <!--<label class="box-lable">账号</label>-->
-            <!--<el-input v-model="form.acount" auto-complete="off"></el-input>-->
+          <!--<label class="box-lable">账号</label>-->
+          <!--<el-input v-model="form.acount" auto-complete="off"></el-input>-->
           <!--</div>-->
           <div class="box-input">
             <label class="box-lable">密码</label>
-            <el-input type="password" v-model="form.password" auto-complete="off"></el-input>
+            <el-input ref="password" type="password" v-model="form.password" auto-complete="off"></el-input>
           </div>
           <div class="box-btn">
             <el-button type="primary" @click="login">登录</el-button>
@@ -45,14 +45,23 @@
         }
       }
     },
+    mounted () {
+      this.$jquery(this.$refs.password.$el).on('keyup', (event) => {
+        if (event.keyCode === 13) {
+          this.login()
+        }
+      })
+    },
     methods: {
       login () {
         let params = {
           Acount: this.form.acount,
           Password: this.form.password
         }
-        this.$axios.post('api/login', params).then(response => {
+        this.$axios.post('box/login', params).then(response => {
           if (response.data.success) {
+            window.setCookie('_ncfa', encodeURIComponent(response.data.data), 1)
+//            document.cookie = '_ncfa=' + response.data.data
             this.$router.push({name: 'Home'})
           } else {
             this.$message(response.data.message)

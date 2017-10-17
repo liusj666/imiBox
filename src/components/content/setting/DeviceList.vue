@@ -129,7 +129,7 @@
     },
     methods: {
       getDevicesList () {
-        this.$axios.get('api/getDriverList').then(response => {
+        this.$axios.get('box/getDriverList').then(response => {
           let data = response.data
           window.driverType = data
           // success callback
@@ -201,7 +201,7 @@
               State: 1,
               Id: row.Id
             }
-          this.$axios.post('api/updateDeviceInfo', params).then(response => {
+          this.$axios.post('box/updateDeviceInfo', params).then(response => {
             if (response.data.success === true) {
               this.diveceGroup[this.activeGroupIndex].DeviceList.splice(index, 1)
               this.$message({
@@ -209,20 +209,22 @@
                 message: '删除成功!'
               })
             } else {
-              this.$message({
-                type: 'warning',
-                message: response.data.msg
-              })
+              if (response.data.data === 'verifed') {
+                this.$router.push({
+                  name: 'Login'
+                })
+              } else {
+                this.$message({
+                  type: 'warning',
+                  message: response.data.message
+                })
+              }
             }
             // success callback
           }, response => {
             // error callback
           })
         }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          })
         })
       },
       deviceGroupSelect (key, keyPath) {

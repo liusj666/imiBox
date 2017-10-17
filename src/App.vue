@@ -16,11 +16,8 @@ export default {
     min-height: 100vh;
     overflow-x: hidden;
   }
-  .el-tabs--border-card>.el-tabs__content {
+
+  div.el-tabs--border-card > .el-tabs__content {
     padding: 0px;
   }
-  .el-tabs__content {
-    overflow: auto;
-  }
-
 </style>

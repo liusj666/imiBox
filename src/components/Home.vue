@@ -49,7 +49,7 @@
           }]
         }
         this.deviceValue.splice(0, this.deviceValue.length)
-        this.$axios.get('api/getDeviceEnableNum').then(response => {
+        this.$axios.get('box/getDeviceEnableNum').then(response => {
           if (response.data.success) {
             let data = response.data.data
             this.deviceValue.push({
@@ -94,7 +94,7 @@
           }]
         }
         this.pointValue.splice(0, this.pointValue.length)
-        this.$axios.get('api/getPointEnableNum').then(response => {
+        this.$axios.get('box/getPointEnableNum').then(response => {
           if (response.data.success) {
             let data = response.data.data
             this.pointValue.push({
