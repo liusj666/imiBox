@@ -62,7 +62,7 @@
           if (response.data.success) {
             window.setCookie('_ncfa', encodeURIComponent(response.data.data), 1)
 //            document.cookie = '_ncfa=' + response.data.data
-            this.$router.push({name: 'Home'})
+            this.$router.push({name: 'Manage'})
           } else {
             this.$message(response.data.message)
           }

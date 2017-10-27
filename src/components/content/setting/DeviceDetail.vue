@@ -66,6 +66,8 @@
           } else {
             this.$store.dispatch(types.CONTENT_SELECTED_GROUP, {pointInfo: []})
           }
+        } else {
+          this.$store.dispatch(types.CONTENT_SELECTED_GROUP, {pointInfo: []})
         }
         return this.groupInfo
       }
@@ -92,13 +94,34 @@
         this.groupInfo.push(data)
       },
       addPoint () {
-        this.$refs.pointAdd.open()
+        if (this.groupInfo.length > 0) {
+          this.$refs.pointAdd.open()
+        } else {
+          this.$message({
+            type: 'info',
+            message: '没有选择采集组'
+          })
+        }
       },
       editGroup () {
-        this.$refs.groupEdit.open(this.groupInfo[this.activeGroupIndex])
+        if (this.groupInfo.length > 0) {
+          this.$refs.groupEdit.open(this.groupInfo[this.activeGroupIndex])
+        } else {
+          this.$message({
+            type: 'info',
+            message: '没有选择采集组'
+          })
+        }
       },
       addGroup () {
-        this.$refs.groupAdd.open()
+        if (this.$store.state.mainSidebar.selectedDeviceId !== '') {
+          this.$refs.groupAdd.open()
+        } else {
+          this.$message({
+            type: 'info',
+            message: '没有选择设备'
+          })
+        }
       },
       selectGroup (tab, event) {
         let id = tab.name
@@ -110,7 +133,6 @@
           }
         }
         if (this.groupInfo[this.activeGroupIndex].Points !== undefined) {
-          console.log(this.groupInfo[this.activeGroupIndex].Points)
           this.$store.dispatch(types.CONTENT_SELECTED_GROUP, {pointInfo: this.groupInfo[this.activeGroupIndex].Points})
         } else {
           this.groupInfo[this.activeGroupIndex].Points = []

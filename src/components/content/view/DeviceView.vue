@@ -43,6 +43,8 @@
           } else {
             this.$store.dispatch(types.CONTENT_SELECTED_GROUP, {pointInfo: []})
           }
+        } else {
+          this.$store.dispatch(types.CONTENT_SELECTED_GROUP, {pointInfo: []})
         }
         return this.groupInfo
       }

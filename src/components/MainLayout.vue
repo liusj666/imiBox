@@ -28,32 +28,32 @@
     </header>
     <div class="main-body">
       <!--<div class="inner l-full">-->
-        <div class="main-nav">
-          <el-input
-            placeholder="输入关键字进行过滤"
-            v-model="filterText">
-          </el-input>
-          <div class="device-tree">
-            <el-tree
-              class="filter-tree"
-              :data="deviceTree"
-              :highlight-current=true
-              node-key="Id"
-              :props="defaultProps"
-              @node-click="deviceSelect"
-              accordion
-              :filter-node-method="filterNode"
-              ref="deviceGroupTree"
-            >
-            </el-tree>
-          </div>
-          <el-button style="width: 10em" type="primary" icon="edit" @click="showEditDevice">设备编辑</el-button>
+      <div class="main-nav">
+        <el-input
+          placeholder="输入关键字进行过滤"
+          v-model="filterText">
+        </el-input>
+        <div class="device-tree">
+          <el-tree
+            class="filter-tree"
+            :data="deviceTree"
+            :highlight-current=true
+            node-key="Id"
+            :props="defaultProps"
+            @node-click="deviceSelect"
+            accordion
+            :filter-node-method="filterNode"
+            ref="deviceGroupTree"
+          >
+          </el-tree>
         </div>
-        <div class="main-content">
-          <div class="group-point">
-            <router-view></router-view>
-          </div>
+        <el-button style="width: 10em" type="primary" icon="edit" @click="showEditDevice">设备编辑</el-button>
+      </div>
+      <div class="main-content">
+        <div class="group-point">
+          <router-view></router-view>
         </div>
+      </div>
       <!--</div>-->
     </div>
     <div class="main-footer">
@@ -106,6 +106,7 @@
         this.$axios.get('box/getDevicesListNew').then(response => {
           let data = response.data.data
           this.deviceTree = data
+          this.$router.push({name: 'Home'})
           // success callback
         }, response => {
           // error callback
@@ -150,6 +151,8 @@
               name: 'DeviceView'
             })
           }
+        } else {
+          this.$store.dispatch(types.MAIN_SIDEBAR_SELECTED_DEVICEID, {selectedDeviceId: ''})
         }
       },
       sysSelect (key) {

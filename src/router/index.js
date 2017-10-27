@@ -22,7 +22,7 @@ export default new Router({
     // },
     {
       path: '/manage',
-      name: 'MainLayout',
+      name: 'Manage',
       component: MainLayout,
       children: [
         {

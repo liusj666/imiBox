@@ -20,7 +20,6 @@
     },
     mounted () {
       this.getDeviceEnableNum()
-      this.getPointEnableNum()
     },
     methods: {
       getDeviceEnableNum () {
@@ -62,11 +61,16 @@
             })
             deviceChart.setOption(deviceOption)
           } else {
+            this.$message({
+              type: 'warning',
+              message: response.data.message
+            })
           }
           // success callback
         }, response => {
           // error callback
         })
+        this.getPointEnableNum()
       },
       getPointEnableNum () {
         //    点位图表
@@ -107,6 +111,10 @@
             })
             pointChart.setOption(pointOption)
           } else {
+            this.$message({
+              type: 'warning',
+              message: response.data.message
+            })
           }
           // success callback
         }, response => {

@@ -50,15 +50,14 @@
                   <el-switch v-model="scope.row.Enable" on-text="是"
                              off-text="否">
                   </el-switch>
-                  <!--<span style="margin-left: 10px">{{ scope.row.Enable }}</span>-->
                 </template>
               </el-table-column>
               <!--<el-table-column-->
-                <!--label="备注"-->
-                <!--width="200">-->
-                <!--<template scope="scope">-->
-                  <!--<span style="margin-left: 10px">{{ scope.row.Description }}</span>-->
-                <!--</template>-->
+              <!--label="备注"-->
+              <!--width="200">-->
+              <!--<template scope="scope">-->
+              <!--<span style="margin-left: 10px">{{ scope.row.Description }}</span>-->
+              <!--</template>-->
               <!--</el-table-column>-->
               <el-table-column label="操作">
                 <template scope="scope">
@@ -156,6 +155,7 @@
         }
       },
       callbackDeviceGroupDataDelete () {
+        this.groupInfo = ''
         this.diveceGroup.splice(this.activeGroupIndex, 1)
       },
       callbackDeviceGroupDataAdd (data) {
@@ -165,19 +165,34 @@
         this.diveceGroup[this.activeGroupIndex].Name = data.Name
       },
       deviceAdd () {
-        this.$refs.deviceAdd.open()
+        if (this.groupInfo !== '') {
+          this.$refs.deviceAdd.open()
+        } else {
+          this.$message({
+            type: 'info',
+            message: '没有选择设备组'
+          })
+        }
       },
       groupAdd () {
         this.$refs.deviceGroupAdd.open()
       },
       groupEdit () {
-        this.$refs.deviceGroupEdit.open(this.groupInfo)
+        if (this.groupInfo !== '') {
+          this.$refs.deviceGroupEdit.open(this.groupInfo)
+        } else {
+          this.$message({
+            type: 'info',
+            message: '没有选择设备组'
+          })
+        }
       },
       open () {
         this.diveceGroup = this.deviceGroupInfo
-        this.activeGroupKey = this.diveceGroup[0].Id
         this.activeGroupIndex = 0
         if (this.diveceGroup.length > 0) {
+          this.groupInfo = this.diveceGroup[0]
+          this.activeGroupKey = this.diveceGroup[0].Id
           if (this.diveceGroup[0].DeviceList !== undefined) {
             this.deviceList = this.diveceGroup[0].DeviceList
           } else {
